@@ -45,7 +45,8 @@
 1. Установлен
 2. PS C:\Programming\virt-homeworks> vagrant -v
 Vagrant 2.2.19
-3. 
+3. frozzy@Frozzy:~$ ansible --version
+ansible [core 2.12.3]
 
 
 ## Задача 4 (*)
