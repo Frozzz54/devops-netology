@@ -59,9 +59,8 @@ rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
 ```
 
-
 <p align="center">
-  <img width="1200" height="600" src="./assets/yc_01.png">
+  <img width="1200" height="600" src="./assets/VM.png">
 </p>
 
 ## Задача 3
