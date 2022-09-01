@@ -67,10 +67,55 @@ commands will detect it and remind you to do so if necessary.
 
 Создать ваш первый готовый к боевой эксплуатации компонент мониторинга, состоящий из стека микросервисов.
 
+```
+PLAY [nodes] ***************************************************************************************************************
+
+TASK [Gathering Facts] *****************************************************************************************************
+
+TASK [Create directory for ssh-keys] ***************************************************************************************
+ok: [node01.netology.cloud]
+
+TASK [Adding rsa-key in /root/.ssh/authorized_keys] ************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Checking DNS] ********************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Installing tools] ****************************************************************************************************
+changed: [node01.netology.cloud] => (item=git)
+ok: [node01.netology.cloud] => (item=curl)
+
+TASK [Add docker repository] ***********************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Installing docker package] *******************************************************************************************
+changed: [node01.netology.cloud] => (item=docker-ce)
+ok: [node01.netology.cloud] => (item=docker-ce-cli)
+ok: [node01.netology.cloud] => (item=containerd.io)
+
+TASK [Enable docker daemon] ************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Install docker-compose] **********************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Synchronization] *****************************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Pull all images in compose] ******************************************************************************************
+changed: [node01.netology.cloud]
+
+TASK [Up all services in compose] ******************************************************************************************
+changed: [node01.netology.cloud]
+
+PLAY RECAP *****************************************************************************************************************
+node01.netology.cloud      : ok=12   changed=10   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+```
+
 Для получения зачета, вам необходимо предоставить:
 - Скриншот работающего веб-интерфейса Grafana с текущими метриками, как на примере ниже
 <p align="center">
-  <img width="1200" height="600" src="./assets/yc_02.png">
+  <img width="1200" height="600" src="./assets/Grafana.png">
 </p>
 
 ## Задача 4 (*)
