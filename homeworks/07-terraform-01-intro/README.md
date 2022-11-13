@@ -49,12 +49,9 @@
 В виде результата этой задачи приложите вывод команды `terraform --version`.
 
 ```
-frozzy@Frozzy:~$ terraform --version
-Terraform v1.1.3
-on linux_amd64
-
-Your version of Terraform is out of date! The latest version
-is 1.3.4. You can update by downloading from https://www.terraform.io/downloads.html
+dmitrygalyshev@Air-Anastasia ~ % terraform --version
+Terraform v1.3.4
+on darwin_arm64
 ```
 
 ## Задача 3. Поддержка легаси кода. 
@@ -67,4 +64,21 @@ is 1.3.4. You can update by downloading from https://www.terraform.io/downloads.
 В виде результата этой задачи приложите вывод `--version` двух версий терраформа доступных на вашем компьютере 
 или виртуальной машине.
 
+### Использовал утилиту tfenv 
+### Командой tfenv list-remote можно получить список доступных версий
+```
+dmitrygalyshev@Air-Anastasia ~ % tfenv use 0.13.0
+No installed versions of terraform matched '0.13.0:^0.13.0$'. Trying to install a matching version since TFENV_AUTO_INSTALL=true
+Installing Terraform v0.13.0
+Installation of terraform v0.13.0 successful. To make this your default version, run 'tfenv use 0.13.0'
+Switching default version to v0.13.0
+```
+
+```
+dmitrygalyshev@Air-Anastasia ~ % tfenv use 1.3.4
+No installed versions of terraform matched '1.3.4:^1.3.4$'. Trying to install a matching version since TFENV_AUTO_INSTALL=true
+Installing Terraform v1.3.4
+Installation of terraform v1.3.4 successful. To make this your default version, run 'tfenv use 1.3.4'
+Switching default version to v1.3.4
+```
 ---
