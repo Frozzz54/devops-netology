@@ -1,0 +1,19 @@
+---
+version: '3.6'
+
+services: 
+  mysql:
+    container_name: mysql
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: test-admin-user
+      MYSQL_PASSWORD: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes: 
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/etc/mysql/conf.d:/etc/mysql/conf.d
+      - ./test_data:/backup/
+    ports:
+      - 3306:3306
