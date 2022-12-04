@@ -15,6 +15,35 @@
 - вывода описания содержимого таблиц
 - выхода из psql
 
+## Ответ
+### Запускаем контейнер
+```
+C:\Programming\DevOps\devops-netology\homeworks\06-db-04-postgresql> docker-compose up -d 
+
+PS C:\Programming\DevOps\devops-netology\homeworks\06-db-04-postgresql> docker ps
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS                    NAMES
+b84df0732b6d   postgres:13   "docker-entrypoint.s…"   19 minutes ago   Up 19 minutes   0.0.0.0:5432->5432/tcp   postgres
+```
+
+### Подключение к бд
+```
+C:\Programming\DevOps\devops-netology\homeworks\06-db-04-postgresql> docker exec -it postgres /bin/bash 
+
+root@b84df0732b6d:/# psql -U test-admin-user -d test_db
+psql (13.9 (Debian 13.9-1.pgdg110+1))
+Type "help" for help.
+
+test_db=# 
+```
+
+```
+- вывода списка БД -> \l
+- подключения к БД -> \c
+- вывода списка таблиц -> \d 
+- вывода описания содержимого таблиц -> **TABLE orders;** || **SELECT * FROM "orders";**
+- выхода из psql -> \q
+```
+---
 ## Задача 2
 
 Используя `psql` создайте БД `test_database`.
@@ -32,6 +61,36 @@
 
 **Приведите в ответе** команду, которую вы использовали для вычисления и полученный результат.
 
+## Ответ
+### Создаем базу **test_database**
+```
+postgres=# CREATE DATABASE test_database;
+CREATE DATABASE
+```
+
+### Восстанавливаем базу из бэкапа
+```
+root@1e2411743a6c:/# psql -U test-admin-user -d test_database -f /test_data/test_dump.sql
+```
+### Проведите операцию ANALYZE
+
+```
+test_database=# ANALYZE VERBOSE public.orders;
+INFO:  analyzing "public.orders"
+INFO:  "orders": scanned 1 of 1 pages, containing 8 live rows and 0 dead rows; 8 rows in sample, 8 estimated total rows
+ANALYZE
+```
+
+### Среднее наибольшее значение размера в байтах
+
+```
+test_database=# SELECT schemaname, tablename, attname, avg_width, correlation from pg_stats where tablename = 'orders' ORDER BY avg_width DESC LIMIT 1;
+ schemaname | tablename | attname | avg_width | correlation 
+------------+-----------+---------+-----------+-------------
+ public     | orders    | title   |        16 |  -0.3809524
+(1 row)
+```
+---
 ## Задача 3
 
 Архитектор и администратор БД выяснили, что ваша таблица orders разрослась до невиданных размеров и
@@ -42,16 +101,39 @@
 
 Можно ли было изначально исключить "ручное" разбиение при проектировании таблицы orders?
 
+## Ответ 
+
+```
+Преобразовать существующую таблицу в партиционированную поэтому пересоздадим таблицу
+test_database=# alter table orders rename to orders_simple;
+ALTER TABLE
+test_database=# create table orders (id integer, title varchar(80), price integer) partition by range(price);
+CREATE TABLE
+test_database=# create table orders_1 partition of orders for values from (0) to (499);
+CREATE TABLE
+test_database=# create table orders_2 partition of orders for values from (499) to (999999999);
+CREATE TABLE
+test_database=# insert into orders (id, title, price) select * from orders_simple;
+INSERT 0 8
+test_database=# 
+При изначальном проектировании таблиц можно было сделать ее секционированной, тогда не пришлось бы переименовывать исходную таблицу и переносить данные в новую.
+```
+---
 ## Задача 4
 
 Используя утилиту `pg_dump` создайте бекап БД `test_database`.
 
 Как бы вы доработали бэкап-файл, чтобы добавить уникальность значения столбца `title` для таблиц `test_database`?
 
----
+### Создание бэкапа
+```
+root@1e2411743a6c:/# cd test_data/
+root@1e2411743a6c:/test_data# pg_dump -U test-admin-user -d test_database >test_database_dump.sql
+```
+### Для уникальности можно добавить индекс или первичный ключ.
 
-### Как cдавать задание
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
+```
+create unique index orders_title_uindex on orders (title);
+```
 
 ---
