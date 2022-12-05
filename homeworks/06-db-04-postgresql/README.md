@@ -130,10 +130,6 @@ test_database=#
 root@1e2411743a6c:/# cd test_data/
 root@1e2411743a6c:/test_data# pg_dump -U test-admin-user -d test_database >test_database_dump.sql
 ```
-### Для уникальности можно добавить индекс или первичный ключ.
-
-```
-create unique index orders_title_uindex on orders (title);
-```
-
+### В бэкап-файл добавил при создании таблице orders для столбца title ключевое слово UNIQUE
+### Когда добавляется UNIQUE ограничение к столбцу или группе столбцов, PostgreSQL автоматически создает уникальный индекс для столбца или группы столбцов.
 ---
