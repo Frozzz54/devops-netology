@@ -1,5 +1,6 @@
 ---
 clickhouse:
   hosts:
-    clickhouse-01:
-      ansible_host: <IP_here>
+    frozzy:
+      ansible_host: 172.17.0.2
+      ansible_user: frozzy

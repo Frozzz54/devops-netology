@@ -1,14 +1,10 @@
 ---
 - name: Install Clickhouse
-  hosts: clickhouse
-  handlers:
-    - name: Start clickhouse service
-      become: true
-      ansible.builtin.service:
-        name: clickhouse-server
-        state: restarted
+  hosts: clickhouse  
   tasks:
+
     - block:
+
         - name: Get clickhouse distrib
           ansible.builtin.get_url:
             url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
@@ -19,6 +15,7 @@
           ansible.builtin.get_url:
             url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
             dest: "./clickhouse-common-static-{{ clickhouse_version }}.rpm"
+
     - name: Install clickhouse packages
       become: true
       ansible.builtin.yum:
@@ -27,10 +24,39 @@
           - clickhouse-client-{{ clickhouse_version }}.rpm
           - clickhouse-server-{{ clickhouse_version }}.rpm
       notify: Start clickhouse service
+
     - name: Flush handlers
       meta: flush_handlers
+
     - name: Create database
       ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
       register: create_db
       failed_when: create_db.rc != 0 and create_db.rc !=82
       changed_when: create_db.rc == 0
+
+  handlers:
+    - name: Start clickhouse service
+      become: true
+      ansible.builtin.service:
+        name: clickhouse-server
+        state: restarted
+        
+- name: Install Vector
+  hosts: clickhouse
+  tasks:
+
+    - name: Vector Install
+      become: true
+      ansible.builtin.yum:
+        name: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
+        state: present
+        install_weak_deps: true
+        disable_gpg_check: true
+      notify: Start Vector service
+
+  handlers:
+    - name: Start Vector service
+      become: true
+      ansible.builtin.service:
+        name: vector
+        state: restarted
