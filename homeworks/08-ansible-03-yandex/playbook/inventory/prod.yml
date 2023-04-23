@@ -1,0 +1,16 @@
+---
+clickhouse:
+  hosts:
+    clickhouse:
+      ansible_host: 51.160.56.22
+      ansible_user: cloud-user
+vector:
+  hosts:
+    vector:
+      ansible_host: 51.160.52.96
+      ansible_user: cloud-user
+lighthouse:
+  hosts:
+    lighthouse:
+      ansible_host: 51.160.49.56
+      ansible_user: cloud-user

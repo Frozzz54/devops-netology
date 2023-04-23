@@ -1,0 +1,21 @@
+---
+vector_url:
+  data_dir: "/var/lib/vector"
+  sources:
+    our_log:
+      type: file
+      include:
+        - "/home/cloud-user/logs/*.log"
+      ignore_older: 600
+      read_from: beginning
+  sinks:
+    to_clickhouse:
+      inputs:
+        - our_log
+      type: clickhouse
+      database: custom
+      table: my_table
+      endpoints: "http://158.160.56.22:8123"
+      healthcheck: false
+      compression: gzip
+      skip_unknown_fields: true
