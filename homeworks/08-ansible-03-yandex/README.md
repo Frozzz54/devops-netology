@@ -20,8 +20,8 @@
 
 ---
 
-### Как оформить решение задания
+### Ответ
 
-Выполненное домашнее задание пришлите в виде ссылки на .md-файл в вашем репозитории.
+[Ссылка на Playbook](https://github.com/Frozzz54/devops-netology/tree/main/homeworks/08-ansible-03-yandex/playbook)
 
 ---
