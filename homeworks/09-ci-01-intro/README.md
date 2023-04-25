@@ -18,6 +18,9 @@
 6. On test -> On fix, Done.
 7. Done -> Closed, Open.
 
+### Ответ
+<img src="./images/2.png">
+
 Остальные задачи должны проходить по упрощённому workflow:
 
 1. Open -> On develop.
@@ -25,6 +28,9 @@
 3. Done develop -> On test.
 4. On test -> On develop, Done.
 5. Done -> Closed, Open.
+
+### Ответ
+<img src="./images/1.png">
 
 **Что нужно сделать**
 
@@ -37,8 +43,9 @@
 
 ---
 
-### Как оформить решение задания
+### Ответ
+[Bug workflow](Netology-Devops-Bug.xml)
 
-Выполненное домашнее задание пришлите в виде ссылки на .md-файл в вашем репозитории.
+[Epic workflow](Netology-Devops-Epic.xml)
 
 ---
