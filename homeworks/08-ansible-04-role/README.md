@@ -39,8 +39,10 @@
 
 ---
 
-### Как оформить решение задания
+### Ответ
 
-Выполненное домашнее задание пришлите в виде ссылки на .md-файл в вашем репозитории.
+### [Playbook](./playbook/site.yml)
+### [Vector-role](https://github.com/Frozzz54/vector-role)
+### [Lighthouse-role](https://github.com/Frozzz54/lighthouse-role)
 
 ---
