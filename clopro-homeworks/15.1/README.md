@@ -33,6 +33,18 @@ Resource Terraform для Yandex Cloud:
 
 [Манифест Terraform](terraform-yc/terraform.tf)
 
+После применения в Яндекс облаке создаются виртуальные машины с настроенной сетью:
+
+![Alt text](images/1.png)
+
+Выполняется подключение по ssh к виртуальной машине public-instance по внешнему адресу и проверяется доступ в интернет:
+
+![Alt text](images/2.png)
+
+С машины public-instance выполняется подключение по ssh к private_instance и проверяется доступ в интернет через nat-instance:
+
+![Alt text](images/3.png)
+
 ---
 ### Задание 2. AWS* (задание со звёздочкой)
 
