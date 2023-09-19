@@ -165,3 +165,70 @@
 2. Откладывание выполнения курсового проекта на последний момент.
 3. Ожидание моментального ответа на свой вопрос. Дипломные руководители - практикующие специалисты, которые занимаются, кроме преподавания, 
   своими проектами. Их время ограничено, поэтому постарайтесь задавать правильные вопросы, чтобы получать быстрые ответы :)
+
+# Решение 
+### Создание облачной инфраструктуры
+
+1. Создан [репозиторий](https://github.com/Frozzz54/tf-kuber) с использованием Yandex Service for Kubernetes. Используются подсети в трех доступных зонах.
+2. Для применения кофигураций используется [Terraform cloud](https://app.terraform.io/) и один workspace: `stage` 
+
+#### Был запущен через консоль потому-что terraform.io отказался привязываться через github 
+![tfcloud](images/1.png)
+
+![tfcloud](images/2.png)
+
+### Создание Kubernetes кластера
+
+1. Для создания кластера Kubernetes используется сервис [Yandex Managed Service for Kubernetes](https://cloud.yandex.ru/services/managed-kubernetes). Создан [манифест](https://github.com/Frozzz54/tf-kuber/blob/main/kubernetes-cluster.tf) с региональным кластером yandex_kubernetes_cluster и тремя yandex_kubernetes_node_group для размещения нод в разных регионах;
+2. Получен файл `~/.kube/config`
+3. Выполнение команды `kubectl get pods --all-namespaces`
+![kuber](images/3.png)
+
+### Создание тестового приложения
+
+1. Был подготовлен [проект](https://gitlab.com/frozzzy/mysite) для создания образа приложения создан [Dockerfile](https://gitlab.com/frozzzy/mysite/-/blob/main/dockerfile?ref_type=heads).
+2. Сборка и публикация описана в части [CI/CD](#настройка-cicd)
+
+### Подготовка cистемы мониторинга и деплой приложения
+
+Использован [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus) для запуска всех компонентов мониторинга.
+
+```shell
+kubectl apply --server-side -f kube-prometheus/manifests/setup
+```
+
+```shell
+kubectl apply -f kube-prometheus/manifests
+```
+
+![scv](images/4.png)
+
+Обеспечен доступ к [web интерфеса Grafana](http://158.160.64.186:3000/d/efa86fd1d0c121a26444b636a3f509a8/kubernetes-compute-resources-cluster?orgId=1&refresh=10s) через внешний ip сервиса.
+
+![grafana](images/5.png)
+
+Автоматически созданы дашборды в Grafana
+
+![grafana](images/6.png)
+
+### Настройка CI/CD
+
+Для сборки в Gitlab был зарегистрирован Gitlab-Runner 
+
+![runner](images/7.png)
+
+написан [.gitlab-ci.yml](https://gitlab.com/frozzzy/mysite/-/blob/master/.gitlab-ci.yml?ref_type=heads) в котором на шаге сборки происходит логин на [DockerHub](https://hub.docker.com/repository/docker/frozzych/mysite/general), потом собирается образ приложения и отправляется в хранилище. Для публикации приложения в k8s был написаны [манифесты](https://gitlab.com/frozzzy/mysite/-/tree/main/k8s?ref_type=heads) 
+
+Результат работы Pipeline
+![](images/8.png)
+Готовые образы приложения
+![](images/9.png)
+
+Результат деплоя в кластере k8s
+
+![](images/10.png)
+
+Обеспечен [доступ к web интерфейсу приложения](http://158.160.53.6/) через внешний ip сервиса.
+
+![](images/11.png)
+
