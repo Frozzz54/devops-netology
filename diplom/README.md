@@ -232,3 +232,23 @@ kubectl apply -f kube-prometheus/manifests
 
 ![](images/11.png)
 
+## Доработка 
+
+Был изменен [проект]((https://gitlab.com/frozzzy/mysite)) на React приложение, для него написан новый [dockerfile](https://gitlab.com/frozzzy/mysite/-/blob/main/dockerfile?ref_type=heads) 
+
+По доработке CI/CD файл [.gitlab-ci.yml](https://gitlab.com/frozzzy/mysite/-/blob/main/.gitlab-ci.yml?ref_type=heads) 
+при сборке добавлено правила запуска задания для ветки `main` и `тегов`.
+```yaml
+only:
+    - main
+    - tags
+```
+![](images/14.png)
+
+Деплой приложения происходит только при наличии тега. В сам [Deployment](https://gitlab.com/frozzzy/mysite/-/blob/main/k8s/mysite-depl.yaml?ref_type=heads) была добавлена метка `IMAGE_FRONT` которая заменятся во время выполнения `pipeline`
+
+![](images/12.png)
+
+Результат выполнения 
+[новая версия сайта](http://158.160.53.6/) с установленным номером версии
+![](images/13.png)
