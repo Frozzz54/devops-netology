@@ -234,7 +234,7 @@ kubectl apply -f kube-prometheus/manifests
 
 ## Доработка 
 
-Был изменен [проект]((https://gitlab.com/frozzzy/mysite)) на React приложение, для него написан новый [dockerfile](https://gitlab.com/frozzzy/mysite/-/blob/main/dockerfile?ref_type=heads) 
+Был изменен [проект](https://gitlab.com/frozzzy/mysite) на React приложение, для него написан новый [dockerfile](https://gitlab.com/frozzzy/mysite/-/blob/main/dockerfile?ref_type=heads) 
 
 По доработке CI/CD файл [.gitlab-ci.yml](https://gitlab.com/frozzzy/mysite/-/blob/main/.gitlab-ci.yml?ref_type=heads) 
 при сборке добавлено правила запуска задания для ветки `main` и `тегов`.
